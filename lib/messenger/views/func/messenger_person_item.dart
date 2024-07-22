@@ -24,10 +24,16 @@ Row messengerPersonItem({required MessengerChatModel messengerChatModel}) {
         ],
       ),
       const Spacer(),
-      const Icon(
-        Icons.check_circle_rounded,
-        color: Colors.blue,
-      ),
+      if (messengerChatModel.status == ChatStatus.received)
+        const Icon(
+          Icons.check_circle_rounded,
+          color: Colors.blue,
+        ),
+      if (messengerChatModel.status == ChatStatus.online)
+        const Icon(
+          Icons.circle,
+          color: Colors.blue,
+        ),
     ],
   );
 }

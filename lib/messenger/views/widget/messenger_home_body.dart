@@ -27,14 +27,15 @@ class MessengerHomeBody extends StatelessWidget {
               height: 10,
             ),
             ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) =>
-                    messengerPersonItem(messengerChatModel: list[index]),
-                separatorBuilder: (context, index) => const SizedBox(
-                      height: 10,
-                    ),
-                itemCount: list.length),
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) =>
+                  messengerPersonItem(messengerChatModel: list[index]),
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 10,
+              ),
+              itemCount: list.length,
+            ),
           ],
         ),
       ),
@@ -48,29 +49,34 @@ List<Map<String, dynamic>> jsonItems = [
     'message': 'hello firend',
     'image':
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpd4mJRIUwqgE8D_Z2znANEbtiz4GhI4M8NQ&s',
+    'status': 'read',
   },
   {
     'name': 'Amgad',
     'message': 'hello firend',
     'image':
         'https://www.shutterstock.com/image-photo/young-handsome-man-beard-wearing-260nw-1768126784.jpg',
+    'status': 'received',
   },
   {
     'name': 'Khald',
     'message': 'hello firend',
     'image':
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpd4mJRIUwqgE8D_Z2znANEbtiz4GhI4M8NQ&s',
+    'status': 'received',
   },
   {
     'name': 'Emad',
     'message': 'hello firend',
     'image':
         'https://www.shutterstock.com/image-photo/young-handsome-man-beard-wearing-260nw-1768126784.jpg',
+    'status': 'online',
   },
   {
     'name': 'Mohamed',
     'message': 'hello firend',
     'image':
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpd4mJRIUwqgE8D_Z2znANEbtiz4GhI4M8NQ&s',
+    'status': 'read',
   },
 ];
