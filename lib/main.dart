@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:one_project_iti/economic/presentation/views/economic_view.dart';
+import 'package:one_project_iti/note_app/presentation/views/note_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const EconomicView(),
+      home: const NoteView(),
     );
   }
 }
