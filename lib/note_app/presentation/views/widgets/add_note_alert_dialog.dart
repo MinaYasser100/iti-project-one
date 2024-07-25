@@ -3,19 +3,22 @@ import 'package:one_project_iti/note_app/core/constant.dart';
 
 import 'custom_text_form_field.dart';
 
-class AddNoteAlertDialog extends StatefulWidget {
-  const AddNoteAlertDialog({
+class NoteAlertDialog extends StatefulWidget {
+  const NoteAlertDialog({
     super.key,
+    required this.titleNoteController,
+    required this.contentNoteController,
+    this.okPressed,
   });
+  final TextEditingController titleNoteController;
+  final TextEditingController contentNoteController;
+  final void Function()? okPressed;
 
   @override
-  State<AddNoteAlertDialog> createState() => _AddNoteAlertDialogState();
+  State<NoteAlertDialog> createState() => _NoteAlertDialogState();
 }
 
-class _AddNoteAlertDialogState extends State<AddNoteAlertDialog> {
-  TextEditingController titleNoteController = TextEditingController();
-  TextEditingController contentNoteController = TextEditingController();
-
+class _NoteAlertDialogState extends State<NoteAlertDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -30,25 +33,27 @@ class _AddNoteAlertDialogState extends State<AddNoteAlertDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           CustomTextFormField(
-            controller: titleNoteController,
+            controller: widget.titleNoteController,
             labelText: 'Title',
           ),
           const SizedBox(
             height: 10,
           ),
           CustomTextFormField(
-            controller: contentNoteController,
+            controller: widget.contentNoteController,
             labelText: 'Note',
           ),
         ],
       ),
       actions: [
         TextButton(
-          onPressed: () {},
+          onPressed: widget.okPressed,
           child: const Text('OK'),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           child: const Text('Cancle'),
         ),
       ],
