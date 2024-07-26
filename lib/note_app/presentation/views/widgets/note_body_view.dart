@@ -28,7 +28,7 @@ class _NoteBodyViewState extends State<NoteBodyView> {
           ),
           NoteAppBarWidget(
             clearAllNotes: () {
-              HiveHelper.noteList.clear();
+              HiveHelper.delectAllNotes();
               setState(() {});
             },
           ),
@@ -40,7 +40,7 @@ class _NoteBodyViewState extends State<NoteBodyView> {
               itemBuilder: (context, index) => NoteItemWidget(
                 noteitem: HiveHelper.noteList[index],
                 deleteNoteItem: () {
-                  HiveHelper.noteList.removeAt(index);
+                  HiveHelper.delectNote(index);
                   setState(() {});
                 },
                 editNoteItem: () {
@@ -60,7 +60,7 @@ class _NoteBodyViewState extends State<NoteBodyView> {
                             note: contentNoteController.text,
                             date: gettingDayDate(),
                           );
-                          HiveHelper.noteList[index] = updatedNote;
+                          HiveHelper.updateNote(index, updatedNote);
                           Navigator.pop(context);
                           setState(() {});
                         } else {

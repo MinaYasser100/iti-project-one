@@ -18,19 +18,18 @@ class _NoteViewState extends State<NoteView> {
   TextEditingController titleNoteController = TextEditingController();
   TextEditingController contentNoteController = TextEditingController();
   @override
+  void initState() {
+    HiveHelper.getNotes();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: secondNoteColor,
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomLeft,
-            colors: [
-              primaryNoteColor,
-              secondNoteColor,
-            ],
-          ),
+        decoration: BoxDecoration(
+          gradient: _scaffoldBackgroundColor(),
         ),
         child: const NoteBodyView(),
       ),
@@ -47,6 +46,17 @@ class _NoteViewState extends State<NoteView> {
     );
   }
 
+  LinearGradient _scaffoldBackgroundColor() {
+    return const LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomLeft,
+      colors: [
+        primaryNoteColor,
+        secondNoteColor,
+      ],
+    );
+  }
+
   void _showDialogMethod(BuildContext context) {
     showDialog(
       context: context,
@@ -56,13 +66,12 @@ class _NoteViewState extends State<NoteView> {
         okPressed: () {
           if (titleNoteController.text != '' &&
               contentNoteController.text != '') {
-            HiveHelper.noteList.add(
-              NoteModel(
-                title: titleNoteController.text,
-                note: contentNoteController.text,
-                date: gettingDayDate(),
-              ),
+            NoteModel noteModel = NoteModel(
+              title: titleNoteController.text,
+              note: contentNoteController.text,
+              date: gettingDayDate(),
             );
+            HiveHelper.addNote(noteModel);
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
