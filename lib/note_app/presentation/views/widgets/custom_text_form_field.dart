@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:one_project_iti/note_app/core/constant.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({
-    super.key,
-    required this.labelText,
-    required this.controller,
-  });
+  const CustomTextFormField(
+      {super.key, required this.controller, this.maxLine = 1});
   final TextEditingController controller;
-  final String labelText;
+  final int maxLine;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,10 +15,10 @@ class CustomTextFormField extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(
+        maxLines: maxLine,
         controller: controller,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
-          labelText: labelText,
         ),
       ),
     );

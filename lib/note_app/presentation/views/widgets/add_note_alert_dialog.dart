@@ -31,17 +31,25 @@ class _NoteAlertDialogState extends State<NoteAlertDialog> {
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const Text(
+            'Title',
+            style: TextStyle(fontSize: 16),
+          ),
           CustomTextFormField(
             controller: widget.titleNoteController,
-            labelText: 'Title',
           ),
           const SizedBox(
             height: 10,
           ),
+          const Text(
+            'Note',
+            style: TextStyle(fontSize: 16),
+          ),
           CustomTextFormField(
             controller: widget.contentNoteController,
-            labelText: 'Note',
+            maxLine: 3,
           ),
         ],
       ),
