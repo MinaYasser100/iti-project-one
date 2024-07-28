@@ -4,6 +4,7 @@ import 'package:one_project_iti/note_app/core/func/getting_day_date.dart';
 import 'package:one_project_iti/note_app/core/hive_helper.dart';
 import 'package:one_project_iti/note_app/data/note_model.dart';
 
+import '../func/delete_backgound.dart';
 import 'add_note_alert_dialog.dart';
 import 'note_app_bar_widget.dart';
 import 'note_item_widget.dart';
@@ -87,40 +88,52 @@ class _SearchNodeBodyViewState extends State<SearchNodeBodyView> {
             ),
           Expanded(
             child: ListView.separated(
-              itemBuilder: (context, index) => NoteItemWidget(
-                noteitem: filterList[index],
-                deleteNoteItem: () {
-                  HiveHelper.delectNote(index);
-                  setState(() {});
-                },
-                editNoteItem: () {
-                  NoteModel itemNote = filterList[index];
-                  titleNoteController.text = itemNote.title;
-                  contentNoteController.text = itemNote.note;
-                  showDialog(
-                    context: context,
-                    builder: (context) => NoteAlertDialog(
-                      titleNoteController: titleNoteController,
-                      contentNoteController: contentNoteController,
-                      okPressed: () {
-                        if (titleNoteController.text != '' &&
-                            contentNoteController.text != '') {
-                          NoteModel updatedNote = NoteModel(
-                            title: titleNoteController.text,
-                            note: contentNoteController.text,
-                            date: gettingDayDate(),
-                          );
-                          HiveHelper.updateNote(index, updatedNote);
-                          Navigator.pop(context);
-                          setState(() {});
-                        } else {
-                          Navigator.pop(context);
-                        }
-                      },
-                    ),
-                  );
-                },
-              ),
+              itemBuilder: (context, index) {
+                final noteItem = filterList[index];
+                return Dismissible(
+                  key: Key(noteItem.title),
+                  direction: DismissDirection.endToStart,
+                  onDismissed: (direction) {
+                    HiveHelper.delectNote(index);
+                    setState(() {});
+                  },
+                  background: deleteBackground(),
+                  child: NoteItemWidget(
+                    noteitem: filterList[index],
+                    deleteNoteItem: () {
+                      HiveHelper.delectNote(index);
+                      setState(() {});
+                    },
+                    editNoteItem: () {
+                      NoteModel itemNote = filterList[index];
+                      titleNoteController.text = itemNote.title;
+                      contentNoteController.text = itemNote.note;
+                      showDialog(
+                        context: context,
+                        builder: (context) => NoteAlertDialog(
+                          titleNoteController: titleNoteController,
+                          contentNoteController: contentNoteController,
+                          okPressed: () {
+                            if (titleNoteController.text != '' &&
+                                contentNoteController.text != '') {
+                              NoteModel updatedNote = NoteModel(
+                                title: titleNoteController.text,
+                                note: contentNoteController.text,
+                                date: gettingDayDate(),
+                              );
+                              HiveHelper.updateNote(index, updatedNote);
+                              Navigator.pop(context);
+                              setState(() {});
+                            } else {
+                              Navigator.pop(context);
+                            }
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
               separatorBuilder: (context, index) => const SizedBox(
                 height: 20,
               ),
