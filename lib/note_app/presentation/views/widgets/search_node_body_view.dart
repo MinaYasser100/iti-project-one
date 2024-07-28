@@ -3,81 +3,98 @@ import 'package:one_project_iti/note_app/core/constant.dart';
 import 'package:one_project_iti/note_app/core/func/getting_day_date.dart';
 import 'package:one_project_iti/note_app/core/hive_helper.dart';
 import 'package:one_project_iti/note_app/data/note_model.dart';
-import 'package:one_project_iti/note_app/presentation/views/widgets/add_note_alert_dialog.dart';
 
+import 'add_note_alert_dialog.dart';
 import 'note_app_bar_widget.dart';
 import 'note_item_widget.dart';
-import 'search_node_view.dart';
 
-class NoteBodyView extends StatefulWidget {
-  const NoteBodyView({super.key});
+class SearchNodeBodyView extends StatefulWidget {
+  const SearchNodeBodyView({super.key});
 
   @override
-  State<NoteBodyView> createState() => _NoteBodyViewState();
+  State<SearchNodeBodyView> createState() => _SearchNodeBodyViewState();
 }
 
-class _NoteBodyViewState extends State<NoteBodyView> {
+class _SearchNodeBodyViewState extends State<SearchNodeBodyView> {
   TextEditingController titleNoteController = TextEditingController();
   TextEditingController contentNoteController = TextEditingController();
-  FocusNode _focusNode = FocusNode();
+  List<NoteModel> filterList = [];
+
   @override
   void initState() {
-    _focusNode.addListener(() {
-      if (_focusNode.hasFocus) {
-        _focusNode.unfocus();
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const SearchNodeView(),
-          ),
-        );
-      }
-    });
     super.initState();
+    // Initialize filterList with all items initially
+    filterList = HiveHelper.noteList;
+  }
+
+  void _filterNotes(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        filterList = HiveHelper.noteList;
+      });
+    } else {
+      setState(() {
+        filterList = HiveHelper.noteList
+            .where((note) =>
+                note.title.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+      padding: const EdgeInsets.all(20.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(
             height: 30,
           ),
-          NoteAppBarWidget(
-            clearAllNotes: () {
-              HiveHelper.delectAllNotes();
-              setState(() {});
-            },
+          const NoteAppBarWidget(
+            isSearch: true,
           ),
           const SizedBox(
             height: 20,
           ),
           TextFormField(
-            focusNode: _focusNode,
+            onChanged: _filterNotes,
             decoration: InputDecoration(
               fillColor: secondNoteColor.withOpacity(0.4),
               filled: true,
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none),
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide.none,
+              ),
               hintText: "Search",
               hintStyle: const TextStyle(
                 color: Colors.white,
               ),
             ),
           ),
+          const SizedBox(
+            height: 20,
+          ),
+          if (filterList.isNotEmpty)
+            const Text(
+              'The results',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+            ),
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, index) => NoteItemWidget(
-                noteitem: HiveHelper.noteList[index],
+                noteitem: filterList[index],
                 deleteNoteItem: () {
                   HiveHelper.delectNote(index);
                   setState(() {});
                 },
                 editNoteItem: () {
-                  NoteModel itemNote = HiveHelper.noteList[index];
+                  NoteModel itemNote = filterList[index];
                   titleNoteController.text = itemNote.title;
                   contentNoteController.text = itemNote.note;
                   showDialog(
@@ -107,7 +124,7 @@ class _NoteBodyViewState extends State<NoteBodyView> {
               separatorBuilder: (context, index) => const SizedBox(
                 height: 20,
               ),
-              itemCount: HiveHelper.noteList.length,
+              itemCount: filterList.length,
             ),
           )
         ],

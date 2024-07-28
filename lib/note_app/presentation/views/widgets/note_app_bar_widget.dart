@@ -5,28 +5,31 @@ class NoteAppBarWidget extends StatelessWidget {
   const NoteAppBarWidget({
     super.key,
     this.clearAllNotes,
+    this.isSearch = false,
   });
   final void Function()? clearAllNotes;
+  final bool isSearch;
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
-          'Note App',
-          style: TextStyle(
+        Text(
+          isSearch ? 'Search Note' : 'Note App',
+          style: const TextStyle(
             color: secondNoteColor,
             fontWeight: FontWeight.w600,
             fontSize: 26,
           ),
         ),
-        TextButton(
-          onPressed: clearAllNotes,
-          child: const Text(
-            'Clear All',
-            style: TextStyle(color: Colors.white),
+        if (!isSearch)
+          TextButton(
+            onPressed: clearAllNotes,
+            child: const Text(
+              'Clear All',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
-        ),
       ],
     );
   }

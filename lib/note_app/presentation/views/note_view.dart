@@ -5,6 +5,7 @@ import 'package:one_project_iti/note_app/core/hive_helper.dart';
 import 'package:one_project_iti/note_app/data/note_model.dart';
 import 'package:one_project_iti/note_app/presentation/views/widgets/note_body_view.dart';
 
+import 'func/scaffold_background_color.dart';
 import 'widgets/add_note_alert_dialog.dart';
 
 class NoteView extends StatefulWidget {
@@ -29,7 +30,7 @@ class _NoteViewState extends State<NoteView> {
       backgroundColor: secondNoteColor,
       body: Container(
         decoration: BoxDecoration(
-          gradient: _scaffoldBackgroundColor(),
+          gradient: scaffoldBackgroundColor(),
         ),
         child: const NoteBodyView(),
       ),
@@ -43,17 +44,6 @@ class _NoteViewState extends State<NoteView> {
           color: Colors.white,
         ),
       ),
-    );
-  }
-
-  LinearGradient _scaffoldBackgroundColor() {
-    return const LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomLeft,
-      colors: [
-        primaryNoteColor,
-        secondNoteColor,
-      ],
     );
   }
 
