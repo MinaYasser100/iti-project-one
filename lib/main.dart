@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:one_project_iti/api_test/test_view.dart';
 import 'package:one_project_iti/note_app/core/hive_helper.dart';
 import 'package:one_project_iti/note_app/data/note_model.dart';
-import 'package:one_project_iti/note_app/presentation/views/note_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const NoteView(),
+      home: const TestView(),
     );
   }
 }
